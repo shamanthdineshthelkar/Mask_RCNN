@@ -78,7 +78,7 @@ def compute_backbone_shapes(config, image_shape):
     if callable(config.BACKBONE):
         return config.COMPUTE_BACKBONE_SHAPE(image_shape)
 
-    # Currently supports ResNet only
+    # Currently supports VGG16 only
     assert config.BACKBONE in ["resnet50", "VGG16"]
     return np.array(
         [[int(math.ceil(image_shape[0] / stride)),
@@ -87,11 +87,11 @@ def compute_backbone_shapes(config, image_shape):
 
 
 ############################################################
-#  Resnet Graph
+#   Graph
 ############################################################
 
 # Code adopted from:
-# https://github.com/fchollet/deep-learning-models/blob/master/resnet50.py
+# https://github.com/fchollet/deep-learning-models/blob/master/VGG.py
 
 def identity_block(input_tensor, kernel_size, filters, stage, block,
                    use_bias=True, train_bn=True):
@@ -170,8 +170,8 @@ def conv_block(input_tensor, kernel_size, filters, stage, block,
 
 
 def resnet_graph(input_image, architecture, stage5=False, train_bn=True):
-    """Build a ResNet graph.
-        architecture: Can be resnet50 or resnet101
+    """Build a VGG16 graph.
+        architecture: Can be VGG16
         stage5: Boolean. If False, stage5 of the network is not created
         train_bn: Boolean. Train or freeze Batch Norm layers
     """
